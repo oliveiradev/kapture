@@ -1,2 +1,6 @@
 <manifest package="com.github.oliveiradev.kapture"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+</manifest>
