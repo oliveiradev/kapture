@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentActivity
 
 private const val KAPTURE_FRAGMENT_TAG = "FragmentProcessorTAG"
 
-fun FragmentActivity.takePhoto(block: (KaptureResult) -> Unit) {
+typealias KaptureResultListener = KaptureResult.() -> Unit
+
+fun FragmentActivity.takePhoto(block: KaptureResultListener) {
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     val oldFragment = this
         .supportFragmentManager
@@ -19,7 +21,7 @@ fun FragmentActivity.takePhoto(block: (KaptureResult) -> Unit) {
 
 private fun FragmentActivity.startResultProcessorFragment(
     intent: Intent,
-    block: (KaptureResult) -> Unit
+    block: KaptureResultListener
 ) {
     val newFragment = ResultProcessorFragment.newInstance(intent)
     newFragment.setKaptureResultListener(block)

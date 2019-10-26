@@ -2,9 +2,8 @@ package com.github.oliveiradev.kapture
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import androidx.fragment.app.Fragment
-
-typealias KaptureResultListener = (KaptureResult) -> Unit
 
 class ResultProcessorFragment : Fragment() {
 
@@ -27,6 +26,11 @@ class ResultProcessorFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == KAPTURE_IMAGE_REQUEST) {
+            data?.putExtra(
+                KAPTURE_EXTERNAL_STORAGE,
+                context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            )
+
             kaptureResultListener?.invoke(KaptureResult(data))
             removeFragment()
         }
@@ -52,6 +56,7 @@ class ResultProcessorFragment : Fragment() {
 
         private const val KAPTURE_IMAGE_REQUEST = 1
         private const val KAPTURE_INTENT_EXTRA = "KAPTURE_INTENT_EXTRA"
+        private const val KAPTURE_EXTERNAL_STORAGE = "storage"
 
         fun newInstance(intent: Intent): ResultProcessorFragment {
             return ResultProcessorFragment().apply {
