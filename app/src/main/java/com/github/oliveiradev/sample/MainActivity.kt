@@ -18,36 +18,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        takePhoto.setOnClickListener { takePhoto() }
-        takePhotoAndSave.setOnClickListener { takePhotoAndSave() }
+        takePhoto.setOnClickListener { onTakePhoto() }
     }
 
-    private fun takePhoto() {
+    private fun onTakePhoto() {
         takePhoto {
-            collectAsBitmap { bitmap, throwable ->
-                bitmap?.let(imageResult::setImageBitmap)
-                throwable?.let { error ->
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Something was wrong ${error.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
-    }
-
-    private fun takePhotoAndSave() {
-        takePhoto {
-            saveAndCollectAsBitmap(this@MainActivity) { bitmap, throwable ->
-                bitmap?.let(imageResult::setImageBitmap)
-                throwable?.let { error ->
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Something was wrong ${error.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            collect {
+                imageResult.setImageURI(it)
             }
         }
     }
